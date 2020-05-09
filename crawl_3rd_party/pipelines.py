@@ -2,6 +2,7 @@
 import scrapy
 from scrapy.pipelines.images import FilesPipeline
 from scrapy.exceptions import DropItem
+from crawl_3rd_party.settings import ua
 
 
 # Define your item pipelines here
@@ -24,11 +25,11 @@ class MyFilesPipeline(FilesPipeline):
             for i in range(0, len(item.get(self.files_urls_field, []))):
                 meta = {'filename': item['ID'] + "_" + item.get("Version", [])[i] + ".apk"}
                 req_list.append(
-                    scrapy.Request(item.get(self.files_urls_field, [])[i], meta=meta, headers={"Cookie": headers}))
+                    scrapy.Request(item.get(self.files_urls_field, [])[i], meta=meta, headers={"Cookie": headers,"USER_AGENT": ua}))
         else:
             meta = {'filename': item['ID'] + ".apk"}
             for x in item.get(self.files_urls_field, []):
-                req_list.append(scrapy.Request(x, meta=meta, headers={"Cookie": headers}))
+                req_list.append(scrapy.Request(x, meta=meta, headers={"Cookie": headers,"USER_AGENT": ua}))
         return req_list
 
     # def get_media_requests(self, item, info):
