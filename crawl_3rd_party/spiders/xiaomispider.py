@@ -18,6 +18,9 @@ class XiaomispiderSpider(CrawlSpider):
         Rule(LinkExtractor(allow=("/details?", )), follow=False, callback='parse_link'),
     )
 
+    def parse_start_url(self, response):
+        self.parse_link(response)
+
     def parse_link(self,response):
         # for title in response.xpath('/html'):
         item = Crawl3RdPartyItem()

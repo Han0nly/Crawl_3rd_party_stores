@@ -15,8 +15,10 @@ class WandoujiaspiderSpider(CrawlSpider):
         start_urls.append('https://www.wandoujia.com/wdjweb/api/category/more?catId=5028&subCatId=647&page='+str(i))
 
     rules = (
-        Rule(LinkExtractor(allow=(r"https://www.wandoujia.com/wdjweb/api/category/more", )), follow=False, callback='parse_link'),
+        Rule(LinkExtractor(allow=(r'https://www.wandoujia.com/wdjweb/api/category/more', )), follow=False, callback='parse_link'),
     )
+    def parse_start_url(self, response):
+        return self.parse_link(response)
 
     def parse_link(self,response):
         if(json.loads(response.text)["state"]["msg"]!="Ok"):
@@ -28,7 +30,7 @@ class WandoujiaspiderSpider(CrawlSpider):
                 yield scrapy.Request(url=url+"/history",callback=self.parse_versions)
             # content.xpath("")
 
-    def parse_item(self, response):
+    def parse_versions(self, response):
         # for title in response.xpath('/html'):
         item = Crawl3RdPartyItem()
         item["ID"] = "Wandoujia_"+response.xpath('/html/body/@data-pn').extract_first()
@@ -41,10 +43,12 @@ class WandoujiaspiderSpider(CrawlSpider):
         version_links = response.xpath('//ul[@class="old-version-list"]/li/a[1]/@href').extract()
         for version_link in version_links:
             r = requests.get(version_link)
-            item["Version"].append(Selector(text=r.text).xpath("/li/div[1]/a[1]/@href").extract_first())
-            item["Updated"].append(Selector(text=r.text).xpath("/li/div[1]/a[1]/@href").extract_first())
-            item["headers"].append(b";".join(response.headers.getlist("Set-Cookie")).decode('utf-8'))
-            item["file_urls"].append(Selector(text=r.text).xpath("/li/div[1]/a[1]/@href").extract_first())
+            item["Version"].append(Selector(text=r.text).xpath('//a[@class="install-btn i-source "]/@data-app-vname').extract_first())
+            if version_link.count('/'):
+                item["Updated"].append(
+                    Selector(text=r.text).xpath('//span[@class="update-time"]/@datetime').extract_first())
+            item["headers"].append(";".join(r.headers.get("Set-Cookie")))
+            item["file_urls"].append(Selector(text=r.text).xpath('//a[@class="normal-dl-btn "]li/@href').extract_first())
             if not item["Developer"]:
                 item["Developer"] = Selector(text=r.text).xpath("/li/div[1]/a[1]/@href").extract_first()
         yield item

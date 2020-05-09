@@ -20,13 +20,13 @@ class MyFilesPipeline(FilesPipeline):
     def get_media_requests(self, item, info):
         headers = item['headers']
         req_list = []
-        if (item['ID'].startwith('Apkpure_')):
+        if (item['ID'].startswith('Apkpure_') or item['ID'].startswith('Wandoujia_')):
             for i in range(0, len(item.get(self.files_urls_field, []))):
-                meta = {'filename': item['ID'] + "_" + item.get("Version", [])[i]}
+                meta = {'filename': item['ID'] + "_" + item.get("Version", [])[i] + ".apk"}
                 req_list.append(
                     scrapy.Request(item.get(self.files_urls_field, [])[i], meta=meta, headers={"Cookie": headers}))
         else:
-            meta = {'filename': item['ID']}
+            meta = {'filename': item['ID'] + ".apk"}
             for x in item.get(self.files_urls_field, []):
                 req_list.append(scrapy.Request(x, meta=meta, headers={"Cookie": headers}))
         return req_list
