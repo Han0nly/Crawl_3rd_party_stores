@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import json
+
 import scrapy
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
@@ -8,20 +10,22 @@ from crawl_3rd_party.items import Crawl3RdPartyItem
 class XiaomispiderSpider(CrawlSpider):
     name = 'xiaomispider'
     allowed_domains = ['mi.com','xiaomi.com']
-    start_urls = []
-    for i in range(0,67):
-        url = 'http://app.mi.com/category/14#page='+str(i)
-        start_urls.append(url)
+    start_urls = ['http://app.mi.com/categotyAllListApi?page=0&categoryId=14&pageSize=2000']
 
     rules = (
-        Rule(LinkExtractor(allow=('/category/14',)), follow=True),
         Rule(LinkExtractor(allow=("/details?", )), follow=False, callback='parse_link'),
     )
 
     def parse_start_url(self, response):
-        self.parse_link(response)
+        # print(response.url)
+        json_dict = json.loads(response.text)
+        if json_dict["data"]:
+            for item in json_dict["data"]:
+                item_url = "http://app.mi.com/details?id="+item["packageName"]
+                yield scrapy.Request(url=item_url,callback=self.parse_link)
 
     def parse_link(self,response):
+        # print(response.url)
         # for title in response.xpath('/html'):
         item = Crawl3RdPartyItem()
         appid = response.xpath('//div[@class="details preventDefault"]/ul[@class=" cf"]/li[10]/text()').extract_first()

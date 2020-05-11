@@ -21,7 +21,7 @@ class ApkpurespiderSpider(CrawlSpider):
     )
 
     def parse_link(self,response):
-        # print("test")
+        print(response.url)
         urls = response.xpath('//ul[@id="pagedata"]/li/div[1]/a[1]/@href').extract()
         for url in urls:
             yield scrapy.Request(url='https://apkpure.com' + url, callback=self.parse_item)
@@ -58,10 +58,8 @@ class ApkpurespiderSpider(CrawlSpider):
                         can_use = 0
                 if(can_use):
                     r = requests.get(version_url)
-                    print("version_url:"+version_url)
                     selector = etree.HTML(r.text)
                     directlink = selector.xpath('//a[@id="download_link"]/@href')[0]
-                    print(directlink)
                     item["Version"].append(versions[i].xpath(
                         'a[1]/div[@class="ver-item"]/div[@class="ver-item-wrap"]/span[@class="ver-item-n"]/text()').extract_first())
                     item["Updated"].append(versions[i].xpath(

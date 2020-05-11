@@ -22,7 +22,7 @@ class QqspiderSpider(CrawlSpider):
         return self.parse_link(response)
 
     def parse_link(self, response):
-        print("asdaaaaaaaaaaaaaaaaaaaaa")
+        # print("asdaaaaaaaaaaaaaaaaaaaaa")
         json_dict = json.loads(response.text)
         if(json_dict['obj']):
             for obj in json_dict['obj']:

@@ -67,38 +67,35 @@ else:
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
-DOWNLOAD_TIMEOUT = 60
+DOWNLOAD_TIMEOUT = 1000
 CONCURRENT_REQUESTS_PER_DOMAIN = 100
 COOKIES_ENABLED = False
 ITEM_PIPELINES = {
     'crawl_3rd_party.pipelines.MyFilesPipeline': 1,
     'scrapy_mongodb.MongoDBPipeline': 2,
 }
-#FILES_STORE = '/store/apks/third_party/'
-FILES_STORE = r'/Users/zxh/Downloads/apks/'
+FILES_STORE = '/store/third_party_apks/'
 
 FILES_URLS_FIELD = 'file_urls'
 FILES_RESULT_FIELD = 'files'
 # 文件过期时间
 FILES_EXPIRES = 90
 MEDIA_ALLOW_REDIRECTS = True
-
 # LOG_FILE="scrapy.log"
 
 MONGODB_URI = 'mongodb://127.0.0.1:27017'
 MONGODB_DATABASE = 'scrapy'
-MONGODB_COLLECTION = 'Third_Party_apps2'
+MONGODB_COLLECTION = 'Third_Party_apps'
 MONGODB_UNIQUE_KEY = 'ID'
 AUTOTHROTTLE_ENABLED = True
-AUTOTHROTTLE_START_DELAY = 1
+AUTOTHROTTLE_START_DELAY = 2
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-#CONCURRENT_REQUESTS = 32
+CONCURRENT_REQUESTS = 16
 
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = 1
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
