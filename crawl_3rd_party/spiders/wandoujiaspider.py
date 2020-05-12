@@ -70,8 +70,7 @@ class WandoujiaspiderSpider(CrawlSpider):
                     item["file_urls"].append([])
                 item["headers"].append(r.raw.headers['set-cookie'])
                 # item["file_urls"].append(Selector(text=r.text).xpath('//a[@class="normal-dl-btn "]/@href').extract_first())
-                if not item["Developer"]:
-                    item["Developer"] = Selector(text=r.text).xpath('//span[@class="dev-sites"]/text()').extract_first()
+                item["Developer"] = Selector(text=r.text).xpath('//span[@class="dev-sites"]/text()').extract_first()
             yield item
         else:
             r = requests.get(response.url.replace('/history', ''))
