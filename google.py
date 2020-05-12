@@ -10,16 +10,17 @@ with open("download.sh","w") as f:
     for item in items:
         link = item["Link"]
         id = link[46:].split("&")[0]
-        command = "gplaycli -L -v -y -av -c ./1.conf -d "+id+" -f ./medical\n"
+        command = "gplaycli -L -v -y -c ./1.conf -d "+id+" -f ./medical\n"
         f.write(command)
         f.write('if [ $? != 0 ];then echo "' + command + '" >> google_failed.log ;fi\n')
+        f.write('sleep 1\n')
     for item in fitness:
         link = item["Link"]
         id = link[46:].split("&")[0]
-        command = "gplaycli -L -v -y -av -c ./1.conf -d "+id+" -f ./fitness\n"
+        command = "gplaycli -L -v -y -c ./1.conf -d "+id+" -f ./fitness\n"
         f.write(command)
         f.write('if [ $? != 0 ];then echo "' + command + '" >> google_failed.log ;fi\n')
-
+        f.write('sleep 1\n')
 
 
 

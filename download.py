@@ -5,7 +5,7 @@ import re
 if __name__ == '__main__':
     collection = MongoClient('mongodb://localhost:27017/')['scrapy']['Third_Party_apps']
     regax = bson.Regex.from_native(re.compile('^Wandoujia_.*'))
-    wandoujia_list = collection.find({'ID':regax},{'ID':1,'Version':1,'file_url':1})
+    wandoujia_list = collection.find({'ID':regax},{'ID':1,'Version':1,'file_urls':1})
     with open("wandoujia_download.sh",'w') as f:
         f.write('#!/bin/bash\n')
         for item in wandoujia_list:
