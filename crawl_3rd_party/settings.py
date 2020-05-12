@@ -71,7 +71,7 @@ DOWNLOAD_TIMEOUT = 1000
 CONCURRENT_REQUESTS_PER_DOMAIN = 100
 COOKIES_ENABLED = False
 ITEM_PIPELINES = {
-    # 'crawl_3rd_party.pipelines.MyFilesPipeline': 1,
+    'crawl_3rd_party.pipelines.MyFilesPipeline': 1,
     'scrapy_mongodb.MongoDBPipeline': 2,
 }
 FILES_STORE = '/store/third_party_apks/'
