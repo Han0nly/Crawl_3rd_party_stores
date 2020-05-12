@@ -10,7 +10,7 @@ from scrapy.selector import Selector
 
 class WandoujiaspiderSpider(CrawlSpider):
     name = 'wandoujiaspider'
-    allowed_domains = ['wandoujia.com','pp.cn','pp.cn']
+    allowed_domains = ['wandoujia.com','pp.cn','uc.cn']
     handle_httpstatus_list = [404]
     start_urls = []
     for i in range(1,42):
@@ -58,15 +58,19 @@ class WandoujiaspiderSpider(CrawlSpider):
                 if version_link.count(r'/')==4:
                     item["Updated"].append(
                         Selector(text=r.text).xpath('//span[@class="update-time"]/@datetime').extract_first())
+                    item["file_urls"].append(
+                        Selector(text=r.text).xpath('//a[contains(@class,"normal-dl-btn")]/@href').extract_first())
                 elif version_link.count(r'/')==5:
                     item["Updated"].append(
                         Selector(text=r.text).xpath('//p[@class="update-time"]/text()').extract_first())
+                    item["file_urls"].append(
+                        Selector(text=r.text).xpath('//a[contains(@class,"normal-dl-btn")]/@href').extract_first().replace("https://","http://"))
                 else:
                     item["Updated"].append([])
+                    item["file_urls"].append([])
                 item["headers"].append(r.raw.headers['set-cookie'])
-                item["file_urls"].append(Selector(text=r.text).xpath('//a[contains(@class,"normal-dl-btn")]/@href').extract_first())
                 # item["file_urls"].append(Selector(text=r.text).xpath('//a[@class="normal-dl-btn "]/@href').extract_first())
-                if len(item["Developer"])==0:
+                if not item["Developer"]:
                     item["Developer"] = Selector(text=r.text).xpath('//span[@class="dev-sites"]/text()').extract_first()
             yield item
         else:

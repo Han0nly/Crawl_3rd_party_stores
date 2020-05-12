@@ -64,7 +64,7 @@ else:
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'crawl_3rd_party (+http://www.yourdomain.com)'
-
+# DOWNLOAD_FAIL_ON_DATALOSS = False
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
 DOWNLOAD_TIMEOUT = 1000
@@ -74,8 +74,8 @@ ITEM_PIPELINES = {
     'crawl_3rd_party.pipelines.MyFilesPipeline': 1,
     'scrapy_mongodb.MongoDBPipeline': 2,
 }
-# FILES_STORE = '/store/third_party_apks/'
-FILES_STORE = r'/Users/zxh/Downloads/apks/'
+FILES_STORE = '/store/third_party_apks/'
+# FILES_STORE = r'/Users/zxh/Downloads/apks/'
 
 FILES_URLS_FIELD = 'file_urls'
 FILES_RESULT_FIELD = 'files'
