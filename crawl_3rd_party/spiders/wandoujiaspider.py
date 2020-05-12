@@ -64,7 +64,7 @@ class WandoujiaspiderSpider(CrawlSpider):
                     item["Updated"].append(
                         Selector(text=r.text).xpath('//p[@class="update-time"]/text()').extract_first())
                     item["file_urls"].append(
-                        Selector(text=r.text).xpath('//a[contains(@class,"normal-dl-btn")]/@href').extract_first().replace("https://","http://"))
+                        Selector(text=r.text).xpath('//a[contains(@class,"normal-dl-btn")]/@href').extract_first())
                 else:
                     item["Updated"].append([])
                     item["file_urls"].append([])
