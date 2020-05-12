@@ -10,7 +10,7 @@ from scrapy.selector import Selector
 
 class WandoujiaspiderSpider(CrawlSpider):
     name = 'wandoujiaspider'
-    allowed_domains = ['wandoujia.com']
+    allowed_domains = ['wandoujia.com','pp.cn','pp.cn']
     handle_httpstatus_list = [404]
     start_urls = []
     for i in range(1,42):

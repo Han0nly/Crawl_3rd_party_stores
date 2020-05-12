@@ -74,7 +74,8 @@ ITEM_PIPELINES = {
     'crawl_3rd_party.pipelines.MyFilesPipeline': 1,
     'scrapy_mongodb.MongoDBPipeline': 2,
 }
-FILES_STORE = '/store/third_party_apks/'
+# FILES_STORE = '/store/third_party_apks/'
+FILES_STORE = r'/Users/zxh/Downloads/apks/'
 
 FILES_URLS_FIELD = 'file_urls'
 FILES_RESULT_FIELD = 'files'
@@ -89,7 +90,7 @@ MONGODB_COLLECTION = 'Third_Party_apps'
 MONGODB_UNIQUE_KEY = 'ID'
 AUTOTHROTTLE_ENABLED = True
 AUTOTHROTTLE_START_DELAY = 2
-
+DOWNLOAD_DELAY = 3
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 CONCURRENT_REQUESTS = 16
 
