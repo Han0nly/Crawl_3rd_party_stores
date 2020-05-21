@@ -43,6 +43,16 @@ Settings
 * Set the storage path in settings.py
 * Change the mongodb configuration in settings.py
 * 在settings.py中修改代理/mongodb配置/下载路径
+* 豌豆荚的https下载链接从国内访问时会被屏蔽，而用国外服务器下载的话则正常，因此如果需要从国内爬取豌豆荚，需要把从item页面抓取到的下载地址中的https修改为http即可正常下载，境外用户则无需修改
+
+```
+# 原程序
+item["file_urls"].append(
+    Selector(text=r.text).xpath('//a[contains(@class,"normal-dl-btn")]/@href').extract_first())
+# 修改为
+item["file_urls"].append(
+    Selector(text=r.text).xpath('//a[contains(@class,"normal-dl-btn")]/@href').extract_first().replace('https://','http://'))
+```
 
 Supported Third-party Markets
 -----------------------------
