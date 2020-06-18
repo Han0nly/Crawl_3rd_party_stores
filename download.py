@@ -12,7 +12,7 @@ if __name__ == '__main__':
             index = 0
             if isinstance(item['file_urls'],list):
                 for url in item['file_urls']:
-                    command = 'wget "'+url+'" -O '+ item['ID']+"_"+item['Version'][index]+"\n"
+                    command = 'wget "'+url+'" -O '+ item['ID']+"_"+item['Version'][index]+".apk\n"
                     f.write(command)
                     f.write('if [ $? != 0 ];then echo "'+command+'" >> wandoujia_failed.log ;fi\n')
                     index=index+1
