@@ -38,6 +38,7 @@ class XiaomispiderSpider(CrawlSpider):
         # url = []
         item["headers"] = b";".join(response.headers.getlist("Set-Cookie")).decode('utf-8')
         item["file_urls"] = ["http://app.mi.com/download/"+ appid]
+        item["file_type"] = '.apk'
         yield item
             # print(item)
 

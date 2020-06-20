@@ -34,6 +34,7 @@ class QqspiderSpider(CrawlSpider):
                 item["Developer"] = obj['authorName']
                 item["headers"] = b";".join(response.headers.getlist("Set-Cookie")).decode('utf-8')
                 item["file_urls"] = [obj['apkUrl']]
+                item["file_type"] = '.apk'
                 yield item
             if(json_dict['pageContext']):
                 yield scrapy.Request(url="https://sj.qq.com/myapp/cate/appList.htm?orgame=1&categoryId=109&pageSize=20&pageContext="+json_dict['pageContext'],callback=self.parse_link)

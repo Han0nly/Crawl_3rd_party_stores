@@ -23,11 +23,11 @@ class MyFilesPipeline(FilesPipeline):
         req_list = []
         if (item['ID'].startswith('Apkpure_') or item['ID'].startswith('Wandoujia_')):
             for i in range(0, len(item.get(self.files_urls_field, []))):
-                meta = {'filename': item['ID'] + "_" + item.get("Version", [])[i] + ".apk"}
+                meta = {'filename': item['ID'] + "_" + item.get("Version", [])[i] + item.get("file_type", [])[i]}
                 req_list.append(
                     scrapy.Request(item.get(self.files_urls_field, [])[i], meta=meta, headers={"Cookie": headers,"USER_AGENT": ua}))
         else:
-            meta = {'filename': item['ID'] + ".apk"}
+            meta = {'filename': item['ID'] + '.apk'}
             for x in item.get(self.files_urls_field, []):
                 req_list.append(scrapy.Request(x, meta=meta, headers={"Cookie": headers,"USER_AGENT": ua}))
         return req_list

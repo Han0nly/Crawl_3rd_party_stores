@@ -38,4 +38,5 @@ class QihuspiderSpider(CrawlSpider):
         # extract direct download path
         item["file_urls"] = [fullpath[fullpath.find('&url='):].strip('&url=')]
         item["ID"] = "360_"+item["file_urls"][0].split('/')[5].split('_')[0]
+        item["file_type"] = '.apk'
         yield item

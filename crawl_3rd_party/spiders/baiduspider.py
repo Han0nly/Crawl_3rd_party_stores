@@ -34,4 +34,5 @@ class BaiduspiderSpider(CrawlSpider):
         # url = []
         item["headers"] = b";".join(response.headers.getlist("Set-Cookie")).decode('utf-8')
         item["file_urls"] = [response.xpath('//*[@id="doc"]/div[2]/div/div[1]/div/div[4]/a/@href').extract_first()]
+        item["file_type"] = '.apk'
         yield item

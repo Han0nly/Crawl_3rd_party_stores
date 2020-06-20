@@ -33,4 +33,5 @@ class CoolapkspiderSpider(CrawlSpider):
         # item["headers"] = response.headers[b'Set-Cookie']
         item["headers"] = b";".join(response.headers.getlist("Set-Cookie")).decode('utf-8')
         item["file_urls"] = [response.xpath('/html/body/script[1]/text()').extract_first().split('"')[1]]
+        item["file_type"] = '.apk'
         yield item

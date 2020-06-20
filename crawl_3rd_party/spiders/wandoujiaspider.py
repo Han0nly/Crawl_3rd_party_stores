@@ -50,6 +50,7 @@ class WandoujiaspiderSpider(CrawlSpider):
             item["Updated"] = []
             item["headers"] = []
             item["file_urls"] = []
+            item["file_type"] = '.apk'
             version_links = response.xpath('//ul[@class="old-version-list"]/li/a[1]/@href').extract()
             for version_link in version_links:
                 r = requests.get(version_link)
@@ -82,6 +83,7 @@ class WandoujiaspiderSpider(CrawlSpider):
             item["Updated"] = []
             item["headers"] = []
             item["file_urls"] = []
+            item["file_type"] = '.apk'
             ppp = r.raw.headers
             item["Version"].append(
                 Selector(text=r.text).xpath('//a[@class="install-btn i-source "]/@data-app-vname').extract_first())
