@@ -9,7 +9,7 @@ import requests
 class ApkpurespiderSpider(CrawlSpider):
     name = 'apkpurespider'
     allowed_domains = ['apkpure.com','winudf.com']
-    start_urls = ['https://apkpure.com/medical?page=1']
+    start_urls = ['https://apkpure.com/health_and_fitness?page=1']
     # start_urls = []
     # https://apkpure.com/health_and_fitness
     # https://apkpure.com/medical
@@ -17,7 +17,7 @@ class ApkpurespiderSpider(CrawlSpider):
     #     start_urls.append('https://apkpure.com/medical?page='+str(i))
 
     rules = (
-        Rule(LinkExtractor(allow=('https://apkpure.com/medical\?page=',)), follow=True, callback='parse_link'),
+        Rule(LinkExtractor(allow=('https://apkpure.com/health_and_fitness\?page=',)), follow=True, callback='parse_link'),
     )
 
     def parse_link(self,response):
