@@ -71,7 +71,7 @@ DOWNLOAD_TIMEOUT = 1000
 CONCURRENT_REQUESTS_PER_DOMAIN = 100
 COOKIES_ENABLED = False
 ITEM_PIPELINES = {
-    # 'crawl_3rd_party.pipelines.MyFilesPipeline': 1,
+    'crawl_3rd_party.pipelines.MyFilesPipeline': 1,
     'scrapy_mongodb.MongoDBPipeline': 2,
 }
 # FILES_STORE = '/store/third_party_apks/'
@@ -88,11 +88,11 @@ MONGODB_URI = 'mongodb://127.0.0.1:27017'
 MONGODB_DATABASE = 'scrapy'
 MONGODB_COLLECTION = 'Third_Party_apps_fitness'
 MONGODB_UNIQUE_KEY = 'ID'
-# AUTOTHROTTLE_ENABLED = True
-# AUTOTHROTTLE_START_DELAY = 1
-# DOWNLOAD_DELAY = 3
+AUTOTHROTTLE_ENABLED = True
+AUTOTHROTTLE_START_DELAY = 1
+DOWNLOAD_DELAY = 3
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-# CONCURRENT_REQUESTS = 16
+CONCURRENT_REQUESTS = 16
 
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
