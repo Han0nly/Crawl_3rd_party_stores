@@ -34,11 +34,3 @@ if __name__ == '__main__':
                 f.write(command+error+'sleep 2\n')
             else:
                 pass
-
-
-
-
-
-
-
-
