@@ -20,3 +20,4 @@ class Crawl3RdPartyItem(scrapy.Item):
     file_urls = scrapy.Field()
     files = scrapy.Field()
     file_type = scrapy.Field()
+    categories = scrapy.Field()

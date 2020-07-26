@@ -8,6 +8,7 @@ import requests
 from scrapy.selector import Selector
 # from lxml import etree
 
+# 需要限速，不然会出现验证码
 class WandoujiaspiderSpider(CrawlSpider):
     name = 'wandoujiaspider'
     allowed_domains = ['wandoujia.com','pp.cn','uc.cn','25pp.com']
@@ -15,6 +16,10 @@ class WandoujiaspiderSpider(CrawlSpider):
     start_urls = []
     for i in range(1,42):
         start_urls.append('https://www.wandoujia.com/wdjweb/api/category/more?catId=5028&subCatId=647&page='+str(i))
+        # 医疗：5028
+        # 新闻：5019
+        # 购物：5017
+        # 旅游：5021
 
     rules = (
         Rule(LinkExtractor(allow=(r'https://www.wandoujia.com/wdjweb/api/category/more', )), follow=False, callback='parse_link'),
@@ -45,6 +50,8 @@ class WandoujiaspiderSpider(CrawlSpider):
             item = Crawl3RdPartyItem()
             item["ID"] = "Wandoujia_" + response.xpath('/html/body/@data-pn').extract_first()
             item["Name"] = response.xpath('/html/body/@data-title').extract_first()
+            item["categories"] = response.xpath(
+                '/html/body/div[2]/div[2]/div[2]/div[2]/div[1]/dl/dd[2]/a[1]/text()').extract_first()
             item["Developer"] = []
             item["Version"] = []
             item["Updated"] = []
@@ -84,6 +91,7 @@ class WandoujiaspiderSpider(CrawlSpider):
             item["headers"] = []
             item["file_urls"] = []
             item["file_type"] = '.apk'
+            item["categories"] = 'Wandoujia_'+Selector(text=r.text).xpath('/html/body/div[2]/div[2]/div[2]/div[2]/div[1]/dl/dd[2]/a[1]/text()').extract_first()
             ppp = r.raw.headers
             item["Version"].append(
                 Selector(text=r.text).xpath('//a[@class="install-btn i-source "]/@data-app-vname').extract_first())

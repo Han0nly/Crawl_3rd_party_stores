@@ -9,7 +9,12 @@ import requests
 class ApkpurespiderSpider(CrawlSpider):
     name = 'apkpurespider'
     allowed_domains = ['apkpure.com','winudf.com']
-    start_urls = ['https://apkpure.com/health_and_fitness?page=1']
+    start_urls = ['https://apkpure.com/app?page=1']
+
+    # 佳东：
+    # 新闻：https://apkpure.com/news_and_magazines
+    # 旅游：https://apkpure.com/travel_and_local
+    # 购物：https://apkpure.com/shopping
     # start_urls = []
     # https://apkpure.com/health_and_fitness
     # https://apkpure.com/medical
@@ -17,7 +22,7 @@ class ApkpurespiderSpider(CrawlSpider):
     #     start_urls.append('https://apkpure.com/medical?page='+str(i))
 
     rules = (
-        Rule(LinkExtractor(allow=('https://apkpure.com/health_and_fitness\?page=',)), follow=True, callback='parse_link'),
+        Rule(LinkExtractor(allow=('https://apkpure.com/app\?page=',)), follow=True, callback='parse_link'),
     )
 
     def parse_link(self,response):
@@ -33,6 +38,7 @@ class ApkpurespiderSpider(CrawlSpider):
         item["ID"] = "Apkpure_"+response.request.url.split('/')[-1]
         item["Name"] = response.xpath('//div[@class="title-like"]/h1/text()').extract_first()
         item["Developer"] = response.xpath('/html/body/div[6]/div[1]/div[2]/div[1]/div/p[1]/text()').extract_first()
+        item["categories"] = response.xpath('//meta[@itemprop="applicationCategory"]/@content').extract_first() +"_"+response.xpath('//meta[@itemprop="applicationSubCategory"]/@content').extract_first()
         address = response.request.url
         yield scrapy.Request(url=address+"/versions", meta={'key': item}, callback=self.parse_versions)
 

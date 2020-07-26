@@ -10,7 +10,11 @@ from crawl_3rd_party.items import Crawl3RdPartyItem
 class XiaomispiderSpider(CrawlSpider):
     name = 'xiaomispider'
     allowed_domains = ['mi.com','xiaomi.com']
-    start_urls = ['http://app.mi.com/categotyAllListApi?page=0&categoryId=14&pageSize=2000']
+    start_urls = ['http://app.mi.com/categotyAllListApi?page=0&categoryId=11&pageSize=2000','http://app.mi.com/categotyAllListApi?page=0&categoryId=3&pageSize=2000','http://app.mi.com/categotyAllListApi?page=0&categoryId=9&pageSize=2000']
+    # 医疗：'http://app.mi.com/categotyAllListApi?page=0&categoryId=14&pageSize=2000'
+    # 购物：http://app.mi.com/categotyAllListApi?page=0&categoryId=9&pageSize=2000
+    # 旅行：http://app.mi.com/categotyAllListApi?page=0&categoryId=3&pageSize=2000
+    # 新闻：http://app.mi.com/categotyAllListApi?page=0&categoryId=11&pageSize=2000
 
     rules = (
         Rule(LinkExtractor(allow=("/details?", )), follow=False, callback='parse_link'),
@@ -36,6 +40,7 @@ class XiaomispiderSpider(CrawlSpider):
         item["Developer"] = response.xpath('/html/body/div[6]/div[1]/div[2]/div[1]/div/p[1]/text()').extract_first()
         # item["Market"] = "Xiaomi"
         # url = []
+        item["categories"] = 'Xiaomi_'+response.xpath('/html/body/div[6]/div[1]/div[2]/div[1]/div/p[2]/text()[1]').extract_first()
         item["headers"] = b";".join(response.headers.getlist("Set-Cookie")).decode('utf-8')
         item["file_urls"] = ["http://app.mi.com/download/"+ appid]
         item["file_type"] = '.apk'

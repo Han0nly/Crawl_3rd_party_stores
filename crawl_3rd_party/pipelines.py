@@ -4,7 +4,6 @@ from scrapy.pipelines.images import FilesPipeline
 from scrapy.exceptions import DropItem
 from crawl_3rd_party.settings import ua
 
-
 # Define your item pipelines here
 #
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
@@ -23,7 +22,10 @@ class MyFilesPipeline(FilesPipeline):
         req_list = []
         if (item['ID'].startswith('Apkpure_') or item['ID'].startswith('Wandoujia_')):
             for i in range(0, len(item.get(self.files_urls_field, []))):
-                meta = {'filename': item['ID'] + "_" + item.get("Version", [])[i] + item.get("file_type", [])[i]}
+                if '.apk' == item.get("file_type", []):
+                    meta = {'filename': item['ID'] + "_" + item.get("Version", [])[i] + '.apk'}
+                else:
+                    meta = {'filename': item['ID'] + "_" + item.get("Version", [])[i] + item.get("file_type", [])[i]}
                 req_list.append(
                     scrapy.Request(item.get(self.files_urls_field, [])[i], meta=meta, headers={"Cookie": headers,"USER_AGENT": ua}))
         else:
@@ -32,10 +34,5 @@ class MyFilesPipeline(FilesPipeline):
                 req_list.append(scrapy.Request(x, meta=meta, headers={"Cookie": headers,"USER_AGENT": ua}))
         return req_list
 
-    # def get_media_requests(self, item, info):
-    #     file_url = item['file_url']
-    #     meta = {'filename': item['name']}
-    #     yield scrapy.Request(url=file_url, meta=meta)
-
     def file_path(self, request, response=None, info=None):
-        return request.meta.get('filename', '')
+        return "%s/%s" % (request.meta.get('categories', ''), request.meta.get('filename', ''))
