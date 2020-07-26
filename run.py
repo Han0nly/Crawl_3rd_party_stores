@@ -1,11 +1,11 @@
 from scrapy.utils.project import get_project_settings
 from scrapy.crawler import CrawlerProcess
 from scrapy.mail import MailSender
-from scrapy import settings
+# from scrapy import settings
 
 if __name__ == '__main__':
-    mailer = MailSender.from_settings(settings)
     setting = get_project_settings()
+    mailer = MailSender.from_settings(setting)
     process = CrawlerProcess(setting)
     didntWorkSpider = ['']
     for spider_name in process.spiders.list():
