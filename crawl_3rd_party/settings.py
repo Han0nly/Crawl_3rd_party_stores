@@ -88,11 +88,23 @@ MONGODB_URI = 'mongodb://127.0.0.1:27017'
 MONGODB_DATABASE = 'scrapy'
 MONGODB_COLLECTION = 'Third_Party_Jiadong'
 MONGODB_UNIQUE_KEY = 'ID'
-# AUTOTHROTTLE_ENABLED = True
-# AUTOTHROTTLE_START_DELAY = 1
-# DOWNLOAD_DELAY = 3
+
+#############Autothrottle Configuration###############
+AUTOTHROTTLE_ENABLED = True
+AUTOTHROTTLE_START_DELAY = 1
+DOWNLOAD_DELAY = 3
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-# CONCURRENT_REQUESTS = 16
+CONCURRENT_REQUESTS = 16
+
+#############Mails Configuration###############
+MAIL_FROM = 'csplserver@xdcyber.cn'
+MAIL_HOST = 'smtp.ym.163.com'
+MAIL_PORT = '994'
+MAIL_USER = 'csplserver@xdcyber.cn'
+MAIL_PASS = 'xxxxxxxxxx'
+MAIL_TLS = False
+MAIL_SSL = True
+
 
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
