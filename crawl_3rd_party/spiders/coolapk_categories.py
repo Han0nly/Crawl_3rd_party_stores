@@ -32,7 +32,7 @@ class CoolapkspiderSpider(CrawlSpider):
         for url in urls:
             yield scrapy.Request(url='https://coolapk.com' + url, callback=self.parse_item,cb_kwargs=dict(category=category))
 
-    def parse_item(self,response,category):
+    def parse_item(self, response, category):
         # for title in response.xpath('/html'):
         item = Crawl3RdPartyItem()
         item["ID"] = "Coolapk_"+response.request.url.split('/')[-1]
@@ -44,4 +44,5 @@ class CoolapkspiderSpider(CrawlSpider):
         item["categories"] = category
         item["file_urls"] = [response.xpath('/html/body/script[1]/text()').extract_first().split('"')[1]]
         item["file_type"] = '.apk'
+        item["installs"] = response.xpath('/html/body/div/div[2]/div[2]/div[1]/div/div/div[1]/p[2]/text()').extract_first().split('/')[1].strip()
         yield item

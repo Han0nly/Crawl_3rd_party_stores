@@ -7,7 +7,7 @@ from crawl_3rd_party.items import Crawl3RdPartyItem
 
 
 class QihuspiderSpider(Spider):
-    name = 'qihuspider'
+    name = 'qihuoldspider'
     allowed_domains = ['zhushou.360.cn']
     start_urls = []
     for i in range(1,105):

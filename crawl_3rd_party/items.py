@@ -21,3 +21,4 @@ class Crawl3RdPartyItem(scrapy.Item):
     files = scrapy.Field()
     file_type = scrapy.Field()
     categories = scrapy.Field()
+    installs = scrapy.Field()

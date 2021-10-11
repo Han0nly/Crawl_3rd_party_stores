@@ -16,23 +16,23 @@ class Crawl3RdPartyPipeline:
 
 
 class MyFilesPipeline(FilesPipeline):
-
     def get_media_requests(self, item, info):
         headers = item['headers']
-        req_list = []
         if (item['ID'].startswith('Apkpure_') or item['ID'].startswith('Wandoujia_')):
             for i in range(0, len(item.get(self.files_urls_field, []))):
                 if '.apk' == item.get("file_type", []):
                     meta = {'filename': item['ID'] + "_" + item.get("Version", [])[i] + '.apk'}
                 else:
                     meta = {'filename': item['ID'] + "_" + item.get("Version", [])[i] + item.get("file_type", [])[i]}
-                req_list.append(
-                    scrapy.Request(item.get(self.files_urls_field, [])[i], meta=meta, headers={"Cookie": headers,"USER_AGENT": ua}))
+                yield scrapy.Request(item.get(self.files_urls_field, [])[i], meta=meta, headers={"Cookie": headers, "USER_AGENT": ua})
+        # elif (item['ID'].startswith('360_')):
+        #     meta = {'filename': item['ID'] + '.apk'}
+        #     for x in item.get(self.files_urls_field, []):
+        #         yield scrapy.Request(x, meta=meta, headers={"Cookie": "__guid=170536683.3233737384537287000.1633956014089.3142", "USER_AGENT": ua})
         else:
             meta = {'filename': item['ID'] + '.apk'}
             for x in item.get(self.files_urls_field, []):
-                req_list.append(scrapy.Request(x, meta=meta, headers={"Cookie": headers,"USER_AGENT": ua}))
-        return req_list
+                yield scrapy.Request(x, meta=meta, headers={"Cookie": headers, "USER_AGENT": ua})
 
-    def file_path(self, request, response=None, info=None):
+    def file_path(self, request, response=None, info=None, *, item=None):
         return "%s/%s" % (request.meta.get('categories', ''), request.meta.get('filename', ''))

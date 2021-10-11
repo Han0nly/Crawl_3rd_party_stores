@@ -4,8 +4,9 @@
 #
 # See documentation in:
 # https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-
+import random
 from scrapy import signals
+from crawl_3rd_party.settings import ua
 
 
 class Crawl3RdPartySpiderMiddleware:
@@ -101,3 +102,12 @@ class Crawl3RdPartyDownloaderMiddleware:
 
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
+
+
+class UseragentMiddleware(Crawl3RdPartyDownloaderMiddleware):
+    def process_request(self, request, spider):
+        referer = request.url
+        if referer:
+            request.headers['referer'] = referer
+        request.headers['User-Agent'] = ua
+        return None

@@ -68,10 +68,10 @@ DOWNLOAD_FAIL_ON_DATALOSS = False
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
 DOWNLOAD_TIMEOUT = 1000
-CONCURRENT_REQUESTS_PER_DOMAIN = 100
-COOKIES_ENABLED = False
+COOKIES_ENABLED = True
 ITEM_PIPELINES = {
-    'crawl_3rd_party.pipelines.MyFilesPipeline': 1,
+    # 'crawl_3rd_party.pipelines.MyFilesPipeline': 1,
+    # 'scrapy.pipelines.files.FilesPipeline': 1,
     'scrapy_mongodb.MongoDBPipeline': 2,
 }
 # FILES_STORE = '/store/third_party_apks/'
@@ -85,23 +85,24 @@ MEDIA_ALLOW_REDIRECTS = True
 # LOG_FILE="scrapy.log"
 
 MONGODB_URI = 'mongodb://127.0.0.1:27017'
-MONGODB_DATABASE = 'scrapy'
-MONGODB_COLLECTION = 'Third_Party_Jiadong'
+MONGODB_DATABASE = 'App_collection'
+MONGODB_COLLECTION = '360'
 MONGODB_UNIQUE_KEY = 'ID'
 
 #############Autothrottle Configuration###############
 AUTOTHROTTLE_ENABLED = True
-AUTOTHROTTLE_START_DELAY = 1
-DOWNLOAD_DELAY = 3
+AUTOTHROTTLE_START_DELAY = 5
+# DOWNLOAD_DELAY = 3
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-CONCURRENT_REQUESTS = 16
+# CONCURRENT_REQUESTS = 16
+# CONCURRENT_REQUESTS_PER_DOMAIN = 100
 
 #############Mails Configuration###############
 MAIL_FROM = 'csplserver@xdcyber.cn'
 MAIL_HOST = 'smtp.ym.163.com'
 MAIL_PORT = '994'
 MAIL_USER = 'csplserver@xdcyber.cn'
-MAIL_PASS = 'xxxxxxxxxx'
+MAIL_PASS = ''
 MAIL_TLS = False
 MAIL_SSL = True
 
@@ -132,9 +133,10 @@ MAIL_SSL = True
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    'crawl_3rd_party.middlewares.Crawl3RdPartyDownloaderMiddleware': 543,
-#}
+# DOWNLOADER_MIDDLEWARES = {
+#    # 'crawl_3rd_party.middlewares.Crawl3RdPartyDownloaderMiddleware': 543,
+#     'crawl_3rd_party.middlewares.UseragentMiddleware': 543,
+# }
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html

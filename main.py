@@ -8,13 +8,15 @@ from scrapy import cmdline
 # cmdline.execute("scrapy crawl wandoujiaspider -s LOG_FILE=wandoujiaspider.log".split())
 # cmdline.execute("scrapy crawl xiaomispider -s LOG_FILE=xiaomispider.log".split())
 # 直接运行
-cmdline.execute("scrapy crawl apkpurespider".split())
+# cmdline.execute("scrapy crawl apkpurespider".split())
 # 直接运行
 # cmdline.execute("scrapy crawl baiduspider".split())
 # 直接运行
 # cmdline.execute("scrapy crawl coolapkspider".split())
 # 直接运行
 # cmdline.execute("scrapy crawl qihuspider".split())
+# 直接运行
+cmdline.execute("scrapy crawl qihuoldspider".split())
 # 直接运行
 # cmdline.execute("scrapy crawl qqspider".split())
 # 需要限速，不然会触发阿里云验证码
