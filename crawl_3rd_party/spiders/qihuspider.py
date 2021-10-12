@@ -5,6 +5,7 @@ import scrapy
 from scrapy.spiders import Spider, Rule
 from scrapy.linkextractors import LinkExtractor
 from crawl_3rd_party.items import Crawl3RdPartyItem
+from crawl_3rd_party.utils import parse_installs
 
 
 class QihuspiderSpider(Spider):
@@ -54,19 +55,24 @@ class QihuspiderSpider(Spider):
             return None
         # info = response.xpath('/html/head/script[10]/text()').extract_first()
         # appid = response.xpath('//div[@class="details preventDefault"]/ul[@class=" cf"]/li[10]/text()').extract_first()
+        version = response.xpath('//strong[contains(text(),"版本：")]/../text()').extract_first()
+        if version:
+            item["Version"] = version.strip()
+        else:
+            item["Version"] = ''
         item["Name"] = response.xpath('//h2[@id="app-name"]/span[1]/text()').extract_first()
-        item["Version"] = response.xpath('//strong[contains(text(),"版本：")]/../text()').extract_first()
         item["Updated"] = response.xpath('//strong[contains(text(),"更新时间：")]/../text()').extract_first()
         item["Developer"] = response.xpath('//strong[contains(text(),"作者：")]/../text()').extract_first()
         item["headers"] = b";".join(response.headers.getlist("Set-Cookie")).decode('utf-8')
         # fullpath = response.xpath('//h2[@id="app-name"]/following-sibling::div[3]/a[1]/@href').extract_first()
         # extract direct download path
         # item["file_urls"] = [fullpath[fullpath.find('&url='):].strip('&url=')]
-        item["ID"] = "360_"+item["file_urls"][0].split('/')[5].split('_')[0]
+        item["ID"] = "360_"+item["file_urls"][0].split('/')[5].split('_')[0] + "_v" + item["Version"]
         item["file_type"] = '.apk'
         tags = response.xpath("/html/body/div[4]/div[2]/div/div[2]/div[2]/div[2]/a/text()").extract()
         item["categories"] = tags
-        item["installs"] = response.xpath('//*[@id="app-info-panel"]/div/dl/dd/div[1]/span[3]/text()').extract_first()[3:]
+        installs = response.xpath('//*[@id="app-info-panel"]/div/dl/dd/div[1]/span[3]/text()').extract_first()[3:]
+        item["installs"] = parse_installs(installs)
         item["app_url"] = response.request.url
         item["crawled_time"] = time.asctime(time.localtime(time.time()))
         yield item

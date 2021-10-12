@@ -5,6 +5,7 @@ import scrapy
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
 from crawl_3rd_party.items import Crawl3RdPartyItem
+from crawl_3rd_party.utils import parse_installs
 
 
 class BaiduspiderSpider(CrawlSpider):
@@ -36,19 +37,25 @@ class BaiduspiderSpider(CrawlSpider):
         # for title in response.xpath('/html'):
         item = Crawl3RdPartyItem()
         # appid = response.xpath('//div[@class="details preventDefault"]/ul[@class=" cf"]/li[10]/text()').extract_first()
-        item["ID"] = "Baidu_" + response.xpath(
-            '//*[@id="doc"]/div[7]/div/div/div[5]/span/@data_package').extract_first()
+
         item["Name"] = response.xpath('//*[@id="doc"]/div[2]/div/div[1]/div/div[2]/h1/span/text()').extract_first()
-        item["Version"] = response.xpath(
+        version = response.xpath(
             '//*[@id="doc"]/div[2]/div/div[1]/div/div[2]/div[2]/span[@class="version"]/text()').extract_first()[3:]
-        item["Updated"] = []
-        item["categories"] = category
-        item["Developer"] = []
+        if version:
+            item["Version"] = version.strip()
+        else:
+            item["Version"] = ''
+        item["ID"] = "Baidu_" + response.xpath(
+            '//*[@id="doc"]/div[7]/div/div/div[5]/span/@data_package').extract_first() + "_v" + item["Version"]
+        item["Updated"] = ''
+        item["categories"] = [category]
+        item["Developer"] = ''
         # url = []
         item["headers"] = b";".join(response.headers.getlist("Set-Cookie")).decode('utf-8')
         item["file_urls"] = [response.xpath('//*[@id="doc"]/div[2]/div/div[1]/div/div[4]/a/@href').extract_first()]
         item["file_type"] = '.apk'
-        item["installs"] = response.xpath('//*[@id="doc"]/div[2]/div/div[1]/div/div[2]/div[2]/span[3]/text()').extract_first().split(':')[1].strip()
+        installs = response.xpath('//*[@id="doc"]/div[2]/div/div[1]/div/div[2]/div[2]/span[3]/text()').extract_first().split(':')[1]
+        item["installs"] = parse_installs(installs)
         item["app_url"] = response.request.url
         item["crawled_time"] = time.asctime(time.localtime(time.time()))
         yield item
