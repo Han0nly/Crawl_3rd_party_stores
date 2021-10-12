@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import time
+
 import scrapy
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
@@ -47,4 +49,6 @@ class BaiduspiderSpider(CrawlSpider):
         item["file_urls"] = [response.xpath('//*[@id="doc"]/div[2]/div/div[1]/div/div[4]/a/@href').extract_first()]
         item["file_type"] = '.apk'
         item["file_type"] = response.xpath('//*[@id="doc"]/div[2]/div/div[1]/div/div[2]/div[2]/span[3]/text()').extract_first().split(':')[1].strip()
+        item["app_url"] = response.request.url
+        item["crawled_time"] = time.asctime(time.localtime(time.time()))
         yield item

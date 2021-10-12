@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import time
 
 import scrapy
 from scrapy.spiders import Spider, Rule
@@ -66,4 +67,6 @@ class QihuspiderSpider(Spider):
         tags = response.xpath("/html/body/div[4]/div[2]/div/div[2]/div[2]/div[2]/a/text()").extract()
         item["categories"] = tags
         item["installs"] = response.xpath('//*[@id="app-info-panel"]/div/dl/dd/div[1]/span[3]/text()').extract_first()[3:]
+        item["app_url"] = response.request.url
+        item["crawled_time"] = time.asctime(time.localtime(time.time()))
         yield item

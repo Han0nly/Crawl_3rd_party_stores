@@ -86,7 +86,7 @@ MEDIA_ALLOW_REDIRECTS = True
 
 MONGODB_URI = 'mongodb://127.0.0.1:27017'
 MONGODB_DATABASE = 'App_collection'
-MONGODB_COLLECTION = '360'
+MONGODB_COLLECTION = 'Coolapk'
 MONGODB_UNIQUE_KEY = 'ID'
 
 #############Autothrottle Configuration###############

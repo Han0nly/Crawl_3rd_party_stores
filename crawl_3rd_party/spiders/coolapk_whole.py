@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import time
+
 import scrapy
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
@@ -8,11 +10,7 @@ from crawl_3rd_party.items import Crawl3RdPartyItem
 class CoolapkWholeSpider(CrawlSpider):
     name = 'coolapkwholespider'
     allowed_domains = ['coolapk.com', '101.71.72.158', '113.200.91.143', '113.200.91.141']
-    # 医疗：https://coolapk.com/apk/tag/医疗
-    # 购物：https://coolapk.com/apk/shopping/?p=1
-    # 新闻：https://coolapk.com/apk/news
-    # 旅游：https://coolapk.com/apk/trave
-    start_urls = ['https://coolapk.com/']
+    start_urls = ['https://coolapk.com/apk']
 
     rules = (
         Rule(LinkExtractor(allow=(
@@ -23,7 +21,7 @@ class CoolapkWholeSpider(CrawlSpider):
 
     def parse_link(self, response):
         urls = response.xpath('//div[@id="game_left"]/div/a/@href').extract()
-        category = response.xpath('//*[@id="game_left"]/div/div[1]/span').extract_first()
+        category = response.xpath('//*[@id="game_left"]/div/div[1]/span/text()').extract_first()
         for url in urls:
             yield scrapy.Request(url='https://coolapk.com' + url, callback=self.parse_item,
                                  cb_kwargs=dict(category=category))
@@ -40,7 +38,10 @@ class CoolapkWholeSpider(CrawlSpider):
             '//p[contains(text(),"详细信息")]/following-sibling::p[1]/text()[4]').extract_first().strip()[6:]
         item["headers"] = b";".join(response.headers.getlist("Set-Cookie")).decode('utf-8')
         item["categories"] = category
-        item["file_urls"] = [response.xpath('/html/body/script[1]/text()').extract_first().split('"')[1]]
+        # item["file_urls"] = [response.xpath('/html/body/script[1]/text()').extract_first().split('"')[1]]
+        item["file_urls"] = response.xpath('/html/body/div/div[2]/div[2]/div[1]/div/div/div[1]/a[1]/@href').extract()
+        item["app_url"] = response.request.url
+        item["crawled_time"] = time.asctime(time.localtime(time.time()))
         item["file_type"] = '.apk'
         item["installs"] = response.xpath('/html/body/div/div[2]/div[2]/div[1]/div/div/div[1]/p[2]/text()').extract_first().split('/')[1].strip()
         yield item
