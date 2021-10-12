@@ -75,7 +75,7 @@ ITEM_PIPELINES = {
     'scrapy_mongodb.MongoDBPipeline': 2,
 }
 # FILES_STORE = '/store/third_party_apks/'
-FILES_STORE = r'/Users/zxh/Downloads/apks/'
+FILES_STORE = r'/Volumes/Untitled/apks/'
 
 FILES_URLS_FIELD = 'file_urls'
 FILES_RESULT_FIELD = 'files'
@@ -86,7 +86,7 @@ MEDIA_ALLOW_REDIRECTS = True
 
 MONGODB_URI = 'mongodb://127.0.0.1:27017'
 MONGODB_DATABASE = 'App_collection'
-MONGODB_COLLECTION = 'Coolapk'
+MONGODB_COLLECTION = 'ThirdParty'
 MONGODB_UNIQUE_KEY = 'ID'
 
 #############Autothrottle Configuration###############

@@ -10,10 +10,10 @@ from scrapy import cmdline
 # 直接运行
 # cmdline.execute("scrapy crawl apkpurespider".split())
 # 直接运行
-# cmdline.execute("scrapy crawl baiduspider".split())
+cmdline.execute("scrapy crawl baiduspider".split())
 # 直接运行
 # cmdline.execute("scrapy crawl coolapkspider".split())
-# cmdline.execute("scrapy crawl coolapkwholespider".split())
+cmdline.execute("scrapy crawl coolapkwholespider".split())
 
 # 直接运行
 cmdline.execute("scrapy crawl qihuspider".split())

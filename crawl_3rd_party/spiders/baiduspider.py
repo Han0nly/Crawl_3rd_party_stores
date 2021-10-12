@@ -42,13 +42,13 @@ class BaiduspiderSpider(CrawlSpider):
         item["Version"] = response.xpath(
             '//*[@id="doc"]/div[2]/div/div[1]/div/div[2]/div[2]/span[@class="version"]/text()').extract_first()[3:]
         item["Updated"] = []
-        item["categories"] = "baidu_" + category
+        item["categories"] = category
         item["Developer"] = []
         # url = []
         item["headers"] = b";".join(response.headers.getlist("Set-Cookie")).decode('utf-8')
         item["file_urls"] = [response.xpath('//*[@id="doc"]/div[2]/div/div[1]/div/div[4]/a/@href').extract_first()]
         item["file_type"] = '.apk'
-        item["file_type"] = response.xpath('//*[@id="doc"]/div[2]/div/div[1]/div/div[2]/div[2]/span[3]/text()').extract_first().split(':')[1].strip()
+        item["installs"] = response.xpath('//*[@id="doc"]/div[2]/div/div[1]/div/div[2]/div[2]/span[3]/text()').extract_first().split(':')[1].strip()
         item["app_url"] = response.request.url
         item["crawled_time"] = time.asctime(time.localtime(time.time()))
         yield item
