@@ -44,9 +44,12 @@ class BaiduspiderSpider(CrawlSpider):
         if version:
             item["Version"] = version.strip()
         else:
-            item["Version"] = ''
-        item["ID"] = "Baidu_" + response.xpath(
-            '//*[@id="doc"]/div[7]/div/div/div[5]/span/@data_package').extract_first() + "_v" + item["Version"]
+            item["Version"] = '1'
+        package_id = response.xpath('//*[@id="doc"]/div[7]/div/div/div[5]/span/@data_package').extract_first()
+        test = response.xpath('//*[@id="doc"]/div[2]/div/div[1]/div/div[5]/span/@data_package').extract_first()
+        item["ID"] = "Baidu_" + test + "_v" + item["Version"]
+        # //*[@id="doc"]/div[2]/div/div[1]/div/div[5]/span
+        # //*[@id="doc"]/div[7]/div/div/div[5]/span
         item["Updated"] = ''
         item["categories"] = [category]
         item["Developer"] = ''

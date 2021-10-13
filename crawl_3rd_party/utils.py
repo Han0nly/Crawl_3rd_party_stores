@@ -11,8 +11,9 @@
 """
 
 
-def parse_installs(installs_str):
-    if installs_str and installs_str.strip():
+def parse_installs(installs):
+    if installs:
+        installs_str = installs.strip()
         if installs_str.endswith("万"):
             installs_int = float(installs_str[:-1]) * 10000
         elif installs_str.endswith("亿"):

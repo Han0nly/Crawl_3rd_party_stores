@@ -70,12 +70,12 @@ ROBOTSTXT_OBEY = False
 DOWNLOAD_TIMEOUT = 1000
 COOKIES_ENABLED = True
 ITEM_PIPELINES = {
-    # 'crawl_3rd_party.pipelines.MyFilesPipeline': 1,
+    'crawl_3rd_party.pipelines.MyFilesPipeline': 1,
     # 'scrapy.pipelines.files.FilesPipeline': 1,
     'scrapy_mongodb.MongoDBPipeline': 2,
 }
 # FILES_STORE = '/store/third_party_apks/'
-FILES_STORE = r'/Volumes/Untitled/apks/'
+FILES_STORE = r'/Volumes/WD/apk'
 
 FILES_URLS_FIELD = 'file_urls'
 FILES_RESULT_FIELD = 'files'

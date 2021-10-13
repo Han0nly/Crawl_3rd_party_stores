@@ -8,8 +8,8 @@ from crawl_3rd_party.items import Crawl3RdPartyItem
 from crawl_3rd_party.utils import parse_installs
 
 
-class CoolapkWholeSpider(CrawlSpider):
-    name = 'coolapkwholespider'
+class CoolapkSpider(CrawlSpider):
+    name = 'coolapkspider'
     allowed_domains = ['coolapk.com', '101.71.72.158', '113.200.91.143', '113.200.91.141']
     start_urls = ['https://coolapk.com/apk']
 
